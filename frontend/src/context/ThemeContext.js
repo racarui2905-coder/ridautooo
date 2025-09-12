@@ -13,27 +13,69 @@ export const useTheme = () => {
 export const ThemeProvider = ({ children }) => {
   const [isDarkMode, setIsDarkMode] = useState(() => {
     // Check localStorage first, then system preference
-    const saved = localStorage.getItem('ridauto-dark-mode');
-    if (saved !== null) {
-      return JSON.parse(saved);
+    try {
+      const saved = localStorage.getItem('ridauto-dark-mode');
+      if (saved !== null) {
+        return JSON.parse(saved);
+      }
+    } catch (error) {
+      console.warn('Error reading dark mode from localStorage:', error);
     }
+    
     // Check system preference
-    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (typeof window !== 'undefined' && window.matchMedia) {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+    
+    return false;
   });
 
   useEffect(() => {
-    // Apply theme to document
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    const applyTheme = (darkMode) => {
+      const html = document.documentElement;
+      
+      if (darkMode) {
+        html.classList.add('dark');
+      } else {
+        html.classList.remove('dark');
+      }
+      
+      // Debug logging
+      console.log('Theme applied:', darkMode ? 'dark' : 'light');
+      console.log('HTML classes:', html.className);
+    };
+
+    // Apply theme immediately
+    applyTheme(isDarkMode);
     
     // Save to localStorage
-    localStorage.setItem('ridauto-dark-mode', JSON.stringify(isDarkMode));
+    try {
+      localStorage.setItem('ridauto-dark-mode', JSON.stringify(isDarkMode));
+    } catch (error) {
+      console.warn('Error saving dark mode to localStorage:', error);
+    }
   }, [isDarkMode]);
 
+  // Listen for system theme changes
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.matchMedia) {
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      
+      const handleChange = (e) => {
+        // Only update if user hasn't manually set a preference
+        const saved = localStorage.getItem('ridauto-dark-mode');
+        if (saved === null) {
+          setIsDarkMode(e.matches);
+        }
+      };
+
+      mediaQuery.addEventListener('change', handleChange);
+      return () => mediaQuery.removeEventListener('change', handleChange);
+    }
+  }, []);
+
   const toggleDarkMode = () => {
+    console.log('Toggling dark mode from:', isDarkMode, 'to:', !isDarkMode);
     setIsDarkMode(prev => !prev);
   };
 
