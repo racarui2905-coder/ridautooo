@@ -133,11 +133,11 @@ const HomePage = () => {
       </section>
 
       {/* Featured Vehicles */}
-      <section className="section">
+      <section className="section bg-white dark:bg-gray-900">
         <div className="container">
           <div className="text-center mb-16">
-            <h2 className="heading-2 mb-4">Vehículos Destacados</h2>
-            <p className="body-large">
+            <h2 className="heading-2 mb-4 text-gray-900 dark:text-gray-100">Vehículos Destacados</h2>
+            <p className="body-large text-gray-600 dark:text-gray-300">
               Descubre nuestra selección de vehículos más populares
             </p>
           </div>
