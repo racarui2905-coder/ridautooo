@@ -377,16 +377,16 @@ const AdminLayout = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Admin Header */}
-      <header className="bg-white shadow-sm">
+      <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
         <div className="px-6 py-4">
           <div className="flex items-center justify-between">
-            <h1 className="text-xl font-semibold text-gray-900">
+            <h1 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
               Ridauto Motor - Admin
             </h1>
             <div className="flex items-center gap-4">
-              <span className="text-gray-600">Hola, {user.username}</span>
+              <span className="text-gray-600 dark:text-gray-400">Hola, {user.username}</span>
               <button
                 onClick={logout}
                 className="btn btn-sm btn-secondary"
@@ -400,13 +400,13 @@ const AdminLayout = () => {
 
       <div className="flex">
         {/* Sidebar */}
-        <nav className="w-64 bg-white shadow-sm min-h-screen">
+        <nav className="w-64 bg-white dark:bg-gray-800 shadow-sm min-h-screen border-r border-gray-200 dark:border-gray-700">
           <div className="p-6">
             <ul className="space-y-2">
               <li>
                 <Link
                   to="/admin"
-                  className="block px-4 py-2 text-gray-700 rounded hover:bg-gray-100"
+                  className="block px-4 py-2 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
                   Dashboard
                 </Link>
@@ -414,7 +414,7 @@ const AdminLayout = () => {
               <li>
                 <Link
                   to="/admin/vehicles"
-                  className="block px-4 py-2 text-gray-700 rounded hover:bg-gray-100"
+                  className="block px-4 py-2 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
                   Vehículos
                 </Link>
@@ -422,7 +422,7 @@ const AdminLayout = () => {
               <li>
                 <Link
                   to="/admin/messages"
-                  className="block px-4 py-2 text-gray-700 rounded hover:bg-gray-100"
+                  className="block px-4 py-2 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
                   Mensajes
                 </Link>
@@ -430,7 +430,7 @@ const AdminLayout = () => {
               <li>
                 <a
                   href="/"
-                  className="block px-4 py-2 text-gray-700 rounded hover:bg-gray-100"
+                  className="block px-4 py-2 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -442,7 +442,7 @@ const AdminLayout = () => {
         </nav>
 
         {/* Main Content */}
-        <main className="flex-1 p-6">
+        <main className="flex-1 p-6 bg-gray-50 dark:bg-gray-900">
           <Routes>
             <Route index element={<AdminDashboard />} />
             <Route path="vehicles" element={<AdminVehicles />} />
