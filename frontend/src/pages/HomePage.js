@@ -67,63 +67,63 @@ const HomePage = () => {
       </section>
 
       {/* Services Section */}
-      <section className="section bg-gray-50">
+      <section className="section bg-gray-50 dark:bg-gray-800">
         <div className="container">
           <div className="text-center mb-16">
-            <h2 className="heading-2 mb-4">¿Por qué elegir Ridauto Motor?</h2>
-            <p className="body-large max-w-2xl mx-auto">
+            <h2 className="heading-2 mb-4 text-gray-900 dark:text-gray-100">¿Por qué elegir Ridauto Motor?</h2>
+            <p className="body-large max-w-2xl mx-auto text-gray-600 dark:text-gray-300">
               Con más de 25 años de experiencia, ofrecemos el mejor servicio en compra y venta de vehículos
             </p>
           </div>
 
           <div className="grid grid-4 gap-8">
-            <div className="text-center card card-content hover-lift">
+            <div className="text-center card card-content hover-lift bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600">
               <div className="w-16 h-16 bg-ridauto-primary rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <h3 className="heading-4 mb-3">Todas las Marcas</h3>
-              <p className="body-regular">
+              <h3 className="heading-4 mb-3 text-gray-900 dark:text-gray-100">Todas las Marcas</h3>
+              <p className="body-regular text-gray-600 dark:text-gray-300">
                 Disponemos de una extensa flota de vehículos de todas las marcas. 
                 Entrega en cualquier punto del país.
               </p>
             </div>
 
-            <div className="text-center card card-content hover-lift">
+            <div className="text-center card card-content hover-lift bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600">
               <div className="w-16 h-16 bg-ridauto-accent rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
               </div>
-              <h3 className="heading-4 mb-3">Asesoramiento</h3>
-              <p className="body-regular">
+              <h3 className="heading-4 mb-3 text-gray-900 dark:text-gray-100">Asesoramiento</h3>
+              <p className="body-regular text-gray-600 dark:text-gray-300">
                 Te asesoramos personalmente en la compra de tu nuevo coche. 
                 Experiencia y confianza garantizadas.
               </p>
             </div>
 
-            <div className="text-center card card-content hover-lift">
+            <div className="text-center card card-content hover-lift bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600">
               <div className="w-16 h-16 bg-ridauto-success rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                 </svg>
               </div>
-              <h3 className="heading-4 mb-3">Garantía</h3>
-              <p className="body-regular">
+              <h3 className="heading-4 mb-3 text-gray-900 dark:text-gray-100">Garantía</h3>
+              <p className="body-regular text-gray-600 dark:text-gray-300">
                 Garantía, seriedad y confianza. Disponibilidad de mantenimientos 
                 de nuestros vehículos.
               </p>
             </div>
 
-            <div className="text-center card card-content hover-lift">
+            <div className="text-center card card-content hover-lift bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600">
               <div className="w-16 h-16 bg-ridauto-warning rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
                 </svg>
               </div>
-              <h3 className="heading-4 mb-3">Financiación</h3>
-              <p className="body-regular">
+              <h3 className="heading-4 mb-3 text-gray-900 dark:text-gray-100">Financiación</h3>
+              <p className="body-regular text-gray-600 dark:text-gray-300">
                 Financiación a tu medida. Ofrecemos las mejores condiciones 
                 del mercado adaptadas a tus necesidades.
               </p>
