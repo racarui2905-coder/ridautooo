@@ -162,24 +162,24 @@ const HomePage = () => {
 
       {/* Testimonials */}
       {testimonials.length > 0 && (
-        <section className="section bg-gray-50">
+        <section className="section bg-gray-50 dark:bg-gray-800">
           <div className="container">
             <div className="text-center mb-16">
-              <h2 className="heading-2 mb-4">Lo que Dicen Nuestros Clientes</h2>
-              <p className="body-large">
+              <h2 className="heading-2 mb-4 text-gray-900 dark:text-gray-100">Lo que Dicen Nuestros Clientes</h2>
+              <p className="body-large text-gray-600 dark:text-gray-300">
                 La confianza de nuestros clientes es nuestra mejor garantía
               </p>
             </div>
 
             <div className="grid grid-3 gap-8">
               {testimonials.map((testimonial) => (
-                <div key={testimonial.id} className="card card-content text-center">
+                <div key={testimonial.id} className="card card-content text-center bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600">
                   <div className="flex justify-center mb-4">
                     {[...Array(5)].map((_, i) => (
                       <svg
                         key={i}
                         className={`w-5 h-5 ${
-                          i < testimonial.rating ? 'text-yellow-400' : 'text-gray-300'
+                          i < testimonial.rating ? 'text-yellow-400' : 'text-gray-300 dark:text-gray-600'
                         }`}
                         fill="currentColor"
                         viewBox="0 0 20 20"
@@ -188,8 +188,8 @@ const HomePage = () => {
                       </svg>
                     ))}
                   </div>
-                  <p className="body-regular mb-4 italic">"{testimonial.content}"</p>
-                  <p className="font-semibold text-ridauto-primary">{testimonial.name}</p>
+                  <p className="body-regular mb-4 italic text-gray-600 dark:text-gray-300">"{testimonial.content}"</p>
+                  <p className="font-semibold text-ridauto-primary dark:text-ridauto-primary-light">{testimonial.name}</p>
                 </div>
               ))}
             </div>
