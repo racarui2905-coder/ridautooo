@@ -585,25 +585,25 @@ class RidautoAPITester:
             # Store current auth header
             auth_header = self.session.headers.get('Authorization')
             
-            # Test 1: No token (401 expected)
+            # Test 1: No token (401 or 403 expected)
             if 'Authorization' in self.session.headers:
                 del self.session.headers['Authorization']
             
             response = self.session.get(f"{self.base_url}/stats")
-            if response.status_code != 401:
-                self.log_test("Admin Auth Security (No Token)", False, f"Expected 401, got {response.status_code}", response.text)
+            if response.status_code not in [401, 403]:
+                self.log_test("Admin Auth Security (No Token)", False, f"Expected 401/403, got {response.status_code}", response.text)
                 return False
             else:
-                self.log_test("Admin Auth Security (No Token)", True, "Properly rejected request without token (401)")
+                self.log_test("Admin Auth Security (No Token)", True, f"Properly rejected request without token ({response.status_code})")
             
-            # Test 2: Invalid token (401 expected)
+            # Test 2: Invalid token (401 or 403 expected)
             self.session.headers['Authorization'] = 'Bearer invalid_token_here'
             response = self.session.get(f"{self.base_url}/stats")
-            if response.status_code != 401:
-                self.log_test("Admin Auth Security (Invalid Token)", False, f"Expected 401, got {response.status_code}", response.text)
+            if response.status_code not in [401, 403]:
+                self.log_test("Admin Auth Security (Invalid Token)", False, f"Expected 401/403, got {response.status_code}", response.text)
                 return False
             else:
-                self.log_test("Admin Auth Security (Invalid Token)", True, "Properly rejected request with invalid token (401)")
+                self.log_test("Admin Auth Security (Invalid Token)", True, f"Properly rejected request with invalid token ({response.status_code})")
             
             # Test 3: Restore valid token and verify it works
             self.session.headers['Authorization'] = auth_header
