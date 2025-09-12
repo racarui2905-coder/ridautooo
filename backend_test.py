@@ -735,8 +735,14 @@ class RidautoAPITester:
         self.test_contact_messages_admin()
         self.test_admin_auth_security()
         
-        # Create a contact message to test the admin endpoint
+        # Create a contact message to test the admin endpoint (this removes auth temporarily)
         self.test_create_contact_message()
+        
+        # Re-login to ensure we have valid auth for remaining tests
+        if not self.test_admin_login():
+            print("❌ Re-authentication failed after contact message creation.")
+            return False
+        
         # Test getting contact messages again after creating one
         self.test_contact_messages_admin()
         
