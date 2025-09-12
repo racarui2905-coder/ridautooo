@@ -12,7 +12,7 @@ from typing import Dict, Any, Optional
 from pathlib import Path
 
 # Configuration
-BASE_URL = "https://luxury-wheels-9.preview.emergentagent.com/api"
+BASE_URL = "https://todo-finisher.preview.emergentagent.com/api"
 ADMIN_USERNAME = "admin"
 ADMIN_PASSWORD = "admin123"
 
