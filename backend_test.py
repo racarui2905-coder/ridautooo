@@ -442,6 +442,183 @@ class RidautoAPITester:
             self.log_test("Unauthorized Access Protection", False, f"Error: {str(e)}")
             return False
     
+    def test_admin_dashboard_stats(self):
+        """Test admin dashboard stats endpoint with authentication"""
+        try:
+            response = self.session.get(f"{self.base_url}/stats")
+            if response.status_code == 200:
+                data = response.json()
+                required_fields = ['total_vehicles', 'available_vehicles', 'sold_vehicles', 'total_messages']
+                
+                # Check if all required fields are present
+                missing_fields = [field for field in required_fields if field not in data]
+                if missing_fields:
+                    self.log_test("Admin Dashboard Stats", False, f"Missing fields: {missing_fields}", data)
+                    return False
+                
+                # Check if values are numbers
+                for field in required_fields:
+                    if not isinstance(data[field], (int, float)):
+                        self.log_test("Admin Dashboard Stats", False, f"Field {field} is not a number: {data[field]}", data)
+                        return False
+                
+                self.log_test("Admin Dashboard Stats", True, f"Dashboard stats working: {data}")
+                return True
+            else:
+                self.log_test("Admin Dashboard Stats", False, f"HTTP {response.status_code}", response.text)
+                return False
+        except Exception as e:
+            self.log_test("Admin Dashboard Stats", False, f"Error: {str(e)}")
+            return False
+    
+    def test_vehicle_status_update(self):
+        """Test vehicle status update functionality"""
+        if not hasattr(self, 'test_vehicle_id'):
+            self.log_test("Vehicle Status Update", False, "No test vehicle ID available")
+            return False
+        
+        try:
+            # Test updating to "sold" status
+            update_data = {
+                "brand": "BMW",
+                "model": "X5",
+                "year": 2023,
+                "price": 72000.0,
+                "kilometers": 15000,
+                "fuel_type": "Gasolina",
+                "transmission": "Automático",
+                "color": "Negro",
+                "power_hp": 340,
+                "doors": 5,
+                "seats": 7,
+                "trunk_volume": 650,
+                "warranty_months": 24,
+                "vehicle_type": "ocasion",
+                "status": "sold",  # Change status to sold
+                "description": "BMW X5 - VENDIDO",
+                "features": ["GPS", "Cuero", "Techo Solar", "Cámara Trasera"]
+            }
+            
+            response = self.session.put(f"{self.base_url}/vehicles/{self.test_vehicle_id}", json=update_data)
+            if response.status_code == 200:
+                data = response.json()
+                if data.get('status') == 'sold':
+                    self.log_test("Vehicle Status Update (Sold)", True, f"Successfully updated vehicle status to 'sold'")
+                    
+                    # Test updating to "hidden" status
+                    update_data['status'] = 'hidden'
+                    update_data['description'] = "BMW X5 - OCULTO"
+                    
+                    response = self.session.put(f"{self.base_url}/vehicles/{self.test_vehicle_id}", json=update_data)
+                    if response.status_code == 200:
+                        data = response.json()
+                        if data.get('status') == 'hidden':
+                            self.log_test("Vehicle Status Update (Hidden)", True, f"Successfully updated vehicle status to 'hidden'")
+                            
+                            # Test updating back to "available" status
+                            update_data['status'] = 'available'
+                            update_data['description'] = "BMW X5 - DISPONIBLE"
+                            
+                            response = self.session.put(f"{self.base_url}/vehicles/{self.test_vehicle_id}", json=update_data)
+                            if response.status_code == 200:
+                                data = response.json()
+                                if data.get('status') == 'available':
+                                    self.log_test("Vehicle Status Update (Available)", True, f"Successfully updated vehicle status to 'available'")
+                                    return True
+                                else:
+                                    self.log_test("Vehicle Status Update (Available)", False, f"Status not updated to available: {data.get('status')}", data)
+                                    return False
+                            else:
+                                self.log_test("Vehicle Status Update (Available)", False, f"HTTP {response.status_code}", response.text)
+                                return False
+                        else:
+                            self.log_test("Vehicle Status Update (Hidden)", False, f"Status not updated to hidden: {data.get('status')}", data)
+                            return False
+                    else:
+                        self.log_test("Vehicle Status Update (Hidden)", False, f"HTTP {response.status_code}", response.text)
+                        return False
+                else:
+                    self.log_test("Vehicle Status Update (Sold)", False, f"Status not updated to sold: {data.get('status')}", data)
+                    return False
+            else:
+                self.log_test("Vehicle Status Update (Sold)", False, f"HTTP {response.status_code}", response.text)
+                return False
+        except Exception as e:
+            self.log_test("Vehicle Status Update", False, f"Error: {str(e)}")
+            return False
+    
+    def test_contact_messages_admin(self):
+        """Test contact messages endpoint with admin authentication"""
+        try:
+            response = self.session.get(f"{self.base_url}/contact")
+            if response.status_code == 200:
+                data = response.json()
+                
+                # Check if it's a list
+                if not isinstance(data, list):
+                    self.log_test("Contact Messages Admin", False, "Response is not a list", data)
+                    return False
+                
+                # If there are messages, check the structure
+                if len(data) > 0:
+                    message = data[0]
+                    required_fields = ['name', 'email', 'message', 'created_at']
+                    optional_fields = ['phone', 'vehicle_id', 'message_type']
+                    
+                    missing_required = [field for field in required_fields if field not in message]
+                    if missing_required:
+                        self.log_test("Contact Messages Admin", False, f"Missing required fields: {missing_required}", message)
+                        return False
+                
+                self.log_test("Contact Messages Admin", True, f"Retrieved {len(data)} contact messages with proper structure")
+                return True
+            else:
+                self.log_test("Contact Messages Admin", False, f"HTTP {response.status_code}", response.text)
+                return False
+        except Exception as e:
+            self.log_test("Contact Messages Admin", False, f"Error: {str(e)}")
+            return False
+    
+    def test_admin_auth_security(self):
+        """Test authentication security for admin endpoints"""
+        try:
+            # Store current auth header
+            auth_header = self.session.headers.get('Authorization')
+            
+            # Test 1: No token (401 expected)
+            if 'Authorization' in self.session.headers:
+                del self.session.headers['Authorization']
+            
+            response = self.session.get(f"{self.base_url}/stats")
+            if response.status_code != 401:
+                self.log_test("Admin Auth Security (No Token)", False, f"Expected 401, got {response.status_code}", response.text)
+                return False
+            else:
+                self.log_test("Admin Auth Security (No Token)", True, "Properly rejected request without token (401)")
+            
+            # Test 2: Invalid token (401 expected)
+            self.session.headers['Authorization'] = 'Bearer invalid_token_here'
+            response = self.session.get(f"{self.base_url}/stats")
+            if response.status_code != 401:
+                self.log_test("Admin Auth Security (Invalid Token)", False, f"Expected 401, got {response.status_code}", response.text)
+                return False
+            else:
+                self.log_test("Admin Auth Security (Invalid Token)", True, "Properly rejected request with invalid token (401)")
+            
+            # Test 3: Restore valid token and verify it works
+            self.session.headers['Authorization'] = auth_header
+            response = self.session.get(f"{self.base_url}/stats")
+            if response.status_code != 200:
+                self.log_test("Admin Auth Security (Valid Token)", False, f"Valid token should work, got {response.status_code}", response.text)
+                return False
+            else:
+                self.log_test("Admin Auth Security (Valid Token)", True, "Valid token properly accepted (200)")
+            
+            return True
+        except Exception as e:
+            self.log_test("Admin Auth Security", False, f"Error: {str(e)}")
+            return False
+    
     def test_delete_vehicle(self):
         """Test deleting a vehicle (cleanup)"""
         if not hasattr(self, 'test_vehicle_id'):
