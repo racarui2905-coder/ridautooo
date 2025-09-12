@@ -232,6 +232,18 @@ frontend:
         agent: "main"
         comment: "✅ COMPLETED: Replaced all 'En desarrollo' placeholders with full admin functionality. Dashboard shows real stats, vehicle management with status updates, message center for customer inquiries. Admin can manage all vehicles and respond to customer messages."
 
+  - task: "Dark Mode Implementation"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/context/ThemeContext.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "✅ COMPLETED: Full dark mode implementation with theme context, CSS variables, toggle button in header, localStorage persistence, and system preference detection. All components updated to support both light and dark themes including admin panel."
+
 metadata:
   created_by: "main_agent"
   version: "1.0"
