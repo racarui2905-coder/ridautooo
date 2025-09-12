@@ -240,10 +240,8 @@ metadata:
 
 test_plan:
   current_focus:
-    - "React App Structure"
     - "Homepage with Typewriter Effect"
     - "Vehicle Catalog and Details"
-    - "Design System Implementation"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
