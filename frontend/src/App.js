@@ -1,53 +1,60 @@
-import { useEffect } from "react";
-import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import axios from "axios";
+import React, { Suspense } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { I18nextProvider } from 'react-i18next';
+import './App.css';
+import i18n from './i18n';
+import ErrorBoundary from './components/ErrorBoundary';
+import LoadingSpinner from './components/LoadingSpinner';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
+// Page components - lazy loaded for better performance
+const HomePage = React.lazy(() => import('./pages/HomePage'));
+const VehiclesPage = React.lazy(() => import('./pages/VehiclesPage'));
+const VehicleDetailPage = React.lazy(() => import('./pages/VehicleDetailPage'));
+const NewsPage = React.lazy(() => import('./pages/NewsPage'));
+const NewsDetailPage = React.lazy(() => import('./pages/NewsDetailPage'));
+const ContactPage = React.lazy(() => import('./pages/ContactPage'));
+const AboutPage = React.lazy(() => import('./pages/AboutPage'));
+const ServicesPage = React.lazy(() => import('./pages/ServicesPage'));
+const FinancingPage = React.lazy(() => import('./pages/FinancingPage'));
+const AdminLayout = React.lazy(() => import('./pages/admin/AdminLayout'));
+const AdminLogin = React.lazy(() => import('./pages/admin/AdminLogin'));
 
-const Home = () => {
-  const helloWorldApi = async () => {
-    try {
-      const response = await axios.get(`${API}/`);
-      console.log(response.data.message);
-    } catch (e) {
-      console.error(e, `errored out requesting / api`);
-    }
-  };
-
-  useEffect(() => {
-    helloWorldApi();
-  }, []);
-
-  return (
-    <div>
-      <header className="App-header">
-        <a
-          className="App-link"
-          href="https://emergent.sh"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img src="https://avatars.githubusercontent.com/in/1201222?s=120&u=2686cf91179bbafbc7a71bfbc43004cf9ae1acea&v=4" />
-        </a>
-        <p className="mt-5">Building something incredible ~!</p>
-      </header>
-    </div>
-  );
-};
+// Context providers
+import { AuthProvider } from './context/AuthContext';
+import { VehicleProvider } from './context/VehicleContext';
 
 function App() {
   return (
-    <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />}>
-            <Route index element={<Home />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <ErrorBoundary>
+      <I18nextProvider i18n={i18n}>
+        <AuthProvider>
+          <VehicleProvider>
+            <Router>
+              <div className="App">
+                <Suspense fallback={<LoadingSpinner />}>
+                  <Routes>
+                    {/* Public Routes */}
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/vehiculos" element={<VehiclesPage />} />
+                    <Route path="/vehiculos/:slug" element={<VehicleDetailPage />} />
+                    <Route path="/noticias" element={<NewsPage />} />
+                    <Route path="/noticias/:id" element={<NewsDetailPage />} />
+                    <Route path="/contacto" element={<ContactPage />} />
+                    <Route path="/nosotros" element={<AboutPage />} />
+                    <Route path="/servicios" element={<ServicesPage />} />
+                    <Route path="/financiacion" element={<FinancingPage />} />
+                    
+                    {/* Admin Routes */}
+                    <Route path="/admin/login" element={<AdminLogin />} />
+                    <Route path="/admin/*" element={<AdminLayout />} />
+                  </Routes>
+                </Suspense>
+              </div>
+            </Router>
+          </VehicleProvider>
+        </AuthProvider>
+      </I18nextProvider>
+    </ErrorBoundary>
   );
 }
 
