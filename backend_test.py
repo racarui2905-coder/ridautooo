@@ -764,5 +764,6 @@ class RidautoAPITester:
 
 if __name__ == "__main__":
     tester = RidautoAPITester()
-    success = tester.run_all_tests()
+    # Run focused admin dashboard tests as requested
+    success = tester.run_admin_dashboard_tests_only()
     exit(0 if success else 1)
