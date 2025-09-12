@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import DarkModeToggle from '../../components/DarkModeToggle';
 
 const AdminLogin = () => {
   const [credentials, setCredentials] = useState({ username: '', password: '' });
@@ -29,18 +30,23 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+      {/* Dark Mode Toggle */}
+      <div className="absolute top-4 right-4">
+        <DarkModeToggle />
+      </div>
+
       <div className="max-w-md w-full">
         <div className="card card-content">
           <div className="text-center mb-8">
-            <h1 className="heading-2 mb-2">Ridauto Motor</h1>
-            <p className="text-gray-600">Panel de Administración</p>
+            <h1 className="heading-2 mb-2 text-gray-900 dark:text-gray-100">Ridauto Motor</h1>
+            <p className="text-gray-600 dark:text-gray-400">Panel de Administración</p>
           </div>
 
           <form onSubmit={handleSubmit}>
             {error && (
-              <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-                <p className="text-red-600 text-sm">{error}</p>
+              <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-6">
+                <p className="text-red-600 dark:text-red-400 text-sm">{error}</p>
               </div>
             )}
 
@@ -77,10 +83,10 @@ const AdminLogin = () => {
             </button>
           </form>
 
-          <div className="mt-6 text-center text-sm text-gray-500">
+          <div className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
             <p>Credenciales por defecto:</p>
-            <p>Usuario: <code className="bg-gray-100 px-1 rounded">admin</code></p>
-            <p>Contraseña: <code className="bg-gray-100 px-1 rounded">admin123</code></p>
+            <p>Usuario: <code className="bg-gray-100 dark:bg-gray-800 px-1 rounded text-gray-800 dark:text-gray-200">admin</code></p>
+            <p>Contraseña: <code className="bg-gray-100 dark:bg-gray-800 px-1 rounded text-gray-800 dark:text-gray-200">admin123</code></p>
           </div>
         </div>
       </div>
