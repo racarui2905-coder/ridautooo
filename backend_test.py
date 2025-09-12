@@ -664,6 +664,14 @@ class RidautoAPITester:
         self.test_update_vehicle()
         self.test_vehicle_filtering()
         
+        # ADMIN DASHBOARD SPECIFIC TESTS (as requested)
+        print("\n🔧 ADMIN DASHBOARD FUNCTIONALITY TESTS")
+        print("-" * 40)
+        self.test_admin_dashboard_stats()
+        self.test_vehicle_status_update()
+        self.test_contact_messages_admin()
+        self.test_admin_auth_security()
+        
         # Other endpoints
         self.test_create_news_article()
         self.test_get_news()
@@ -683,6 +691,61 @@ class RidautoAPITester:
         # Summary
         print("\n" + "=" * 60)
         print("📊 TEST SUMMARY")
+        print("=" * 60)
+        
+        passed = sum(1 for result in self.test_results if result['success'])
+        total = len(self.test_results)
+        
+        print(f"✅ Passed: {passed}/{total}")
+        print(f"❌ Failed: {total - passed}/{total}")
+        
+        if total - passed > 0:
+            print("\n🔍 FAILED TESTS:")
+            for result in self.test_results:
+                if not result['success']:
+                    print(f"   • {result['test']}: {result['message']}")
+        
+        return passed == total
+    
+    def run_admin_dashboard_tests_only(self):
+        """Run only the admin dashboard tests as requested"""
+        print("🚀 Starting Admin Dashboard Functionality Tests")
+        print(f"🔗 Testing against: {self.base_url}")
+        print("=" * 60)
+        
+        # Basic connectivity
+        if not self.test_api_root():
+            print("❌ API is not accessible. Stopping tests.")
+            return False
+        
+        # Authentication flow
+        self.test_init_admin()
+        if not self.test_admin_login():
+            print("❌ Authentication failed. Stopping tests.")
+            return False
+        
+        # Create a test vehicle for status update tests
+        self.test_create_vehicle()
+        
+        # ADMIN DASHBOARD SPECIFIC TESTS
+        print("\n🔧 ADMIN DASHBOARD FUNCTIONALITY TESTS")
+        print("-" * 40)
+        self.test_admin_dashboard_stats()
+        self.test_vehicle_status_update()
+        self.test_contact_messages_admin()
+        self.test_admin_auth_security()
+        
+        # Create a contact message to test the admin endpoint
+        self.test_create_contact_message()
+        # Test getting contact messages again after creating one
+        self.test_contact_messages_admin()
+        
+        # Cleanup
+        self.test_delete_vehicle()
+        
+        # Summary
+        print("\n" + "=" * 60)
+        print("📊 ADMIN DASHBOARD TEST SUMMARY")
         print("=" * 60)
         
         passed = sum(1 for result in self.test_results if result['success'])
