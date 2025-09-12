@@ -199,18 +199,18 @@ const HomePage = () => {
 
       {/* Latest News */}
       {news.length > 0 && (
-        <section className="section">
+        <section className="section bg-white dark:bg-gray-900">
           <div className="container">
             <div className="text-center mb-16">
-              <h2 className="heading-2 mb-4">Últimas Noticias</h2>
-              <p className="body-large">
+              <h2 className="heading-2 mb-4 text-gray-900 dark:text-gray-100">Últimas Noticias</h2>
+              <p className="body-large text-gray-600 dark:text-gray-300">
                 Mantente al día de las últimas novedades del sector
               </p>
             </div>
 
             <div className="grid grid-3 gap-8">
               {news.map((article) => (
-                <article key={article.id} className="card hover-lift">
+                <article key={article.id} className="card hover-lift bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600">
                   {article.image_url && (
                     <div className="card-image">
                       <img 
@@ -224,15 +224,15 @@ const HomePage = () => {
                     <h3 className="heading-4 mb-3">
                       <Link 
                         to={`/noticias/${article.id}`}
-                        className="text-gray-900 hover:text-ridauto-primary"
+                        className="text-gray-900 dark:text-gray-100 hover:text-ridauto-primary dark:hover:text-ridauto-primary-light"
                       >
                         {article.title}
                       </Link>
                     </h3>
-                    <p className="body-regular mb-4">{article.excerpt}</p>
+                    <p className="body-regular mb-4 text-gray-600 dark:text-gray-300">{article.excerpt}</p>
                     <Link 
                       to={`/noticias/${article.id}`}
-                      className="text-ridauto-primary font-semibold hover:text-ridauto-accent"
+                      className="text-ridauto-primary dark:text-ridauto-primary-light font-semibold hover:text-ridauto-accent dark:hover:text-ridauto-accent-light"
                     >
                       Leer más →
                     </Link>
